@@ -14,6 +14,6 @@ Example:
     {{ % footer % }}
 </html>
 ```
-The above template has two variables - title, body - that will be replaced with predefined values in the getTempalteHTML function. It also has the {{ % footer % }} marker which will be replaced with the HTML result of the footer.template file added in the 'template' folder of the project.
+The above template has two variables - title, body - that will be replaced with predefined values in the getTemplateHTML function. It also has the {{ % footer % }} marker which will be replaced with the HTML result of the footer.template file added in the 'template' folder of the project.
 
 This works recursively, so if the footer.template file itself has markers, those will be replaced when it's inserted.
