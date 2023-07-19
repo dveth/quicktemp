@@ -5,32 +5,46 @@ function removeDuplicates(arr){
     return uniqueArr;
 }
 
-function getSubStrings(templateText){
-    const regex = /{{ \S* }}/g;
+function getTemplateSubStrings(templateText){
+    const regex = /{{ .* }}/g;
     let matches = templateText.match(regex);
     matches = removeDuplicates(matches);
     console.log("Matches: " + matches);
     return matches;
 }
 
-function replaceText(templateText, substrings, arr){
+function isTemplateOccurrence(substring){
+    const regex = /% \S* %/g;
+    let doesMatch = regex.test(substring);
+    return doesMatch;
+}
+
+async function replaceText(templateText, substrings, arr){
     let result = templateText;
-    substrings.forEach(element => {
-        let inner = element.substring(2,element.length-2).trim();
-        console.log(inner + ": " + arr.hasOwnProperty(inner));
-        if(arr.hasOwnProperty(inner)){
-            result = result.replaceAll(element, arr[inner]);
+    for(const marker of substrings){
+        let inner = marker.substring(2,marker.length-2).trim();
+        if(!isTemplateOccurrence(marker)){
+            //console.log(inner + ": " + arr.hasOwnProperty(inner));
+            if(arr.hasOwnProperty(inner)){
+                result = result.replaceAll(marker, arr[inner]);
+            }
+        }else{
+           let innerTemplate = inner.substring(2,inner.length-2).trim();
+            let templateHTML = await getTemplateHTML('templates/' + innerTemplate + '.template');
+            result = result.replaceAll(marker, templateHTML);
         }
-    });
+    };
     return result;
 }
 
-exports.getTemplateHTML = async function (filepath, arr = {}){
+async function getTemplateHTML (filepath, arr = {}){
     console.log(filepath);
 
     let templateText = await fs.readFile(filepath);
     templateText = templateText.toString();
-    let substrings = getSubStrings(templateText);
-    templateText = replaceText(templateText, substrings, arr);
+    let substrings = getTemplateSubStrings(templateText);
+    templateText = await replaceText(templateText, substrings, arr);
     return (templateText);
 }
+
+exports.getTemplateHTML = getTemplateHTML;
