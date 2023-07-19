@@ -1,0 +1,25 @@
+{
+  "name": "quicktemp",
+  "version": "1.0.0",
+  "description": "JavaScript HTML Templater",
+  "main": "templater.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dveth/quicktemp.git"
+  },
+  "keywords": [
+    "javascript",
+    "html",
+    "template",
+    "node"
+  ],
+  "author": "dveth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dveth/quicktemp/issues"
+  },
+  "homepage": "https://github.com/dveth/quicktemp#readme"
+}
